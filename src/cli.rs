@@ -11,9 +11,21 @@ pub struct Cli {
 #[derive(Debug, Subcommand, Serialize, Deserialize)]
 pub enum Action {
     Chat(ChatArgs),
+    Wait(WaitArgs),
 }
 
 #[derive(Debug, clap::Args, Serialize, Deserialize)]
 pub struct ChatArgs {
     pub message: String,
+}
+
+#[derive(Debug, clap::Args, Serialize, Deserialize)]
+pub struct WaitArgs {
+    #[clap(subcommand)]
+    pub event: WaitEvent,
+}
+
+#[derive(Debug, Subcommand, Serialize, Deserialize)]
+pub enum WaitEvent {
+    MapLoaded,
 }
