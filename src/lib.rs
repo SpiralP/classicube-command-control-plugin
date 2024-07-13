@@ -1,11 +1,9 @@
 #![warn(clippy::pedantic)]
-#![allow(
-    renamed_and_removed_lints,
-    clippy::missing_errors_doc,
-    missing_panics_doc
-)]
+#![allow(clippy::missing_errors_doc, clippy::missing_panics_doc)]
 
+pub mod cli;
 pub mod logger;
+pub mod messaging;
 pub mod plugin;
 pub mod traits;
 
@@ -14,23 +12,25 @@ use std::{os::raw::c_int, ptr};
 use classicube_sys::IGameComponent;
 
 extern "C" fn init() {
-    //
+    logger::initialize(true, false, module_path!());
+
+    plugin::init();
 }
 
 extern "C" fn free() {
-    //
+    plugin::free();
 }
 
 extern "C" fn reset() {
-    //
+    plugin::reset();
 }
 
 extern "C" fn on_new_map() {
-    //
+    plugin::on_new_map();
 }
 
 extern "C" fn on_new_map_loaded() {
-    //
+    plugin::on_new_map_loaded();
 }
 
 #[no_mangle]
