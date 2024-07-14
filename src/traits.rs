@@ -1,13 +1,13 @@
-use std::os::unix::net::UnixStream;
-
 use anyhow::Result;
 use serde::{de::DeserializeOwned, Serialize};
 
-pub trait UnixStreamSendMessageTrait<T: ?Sized> {
+use crate::ipc::IpcConnection;
+
+pub trait IpcStreamSendMessageTrait<T: ?Sized> {
     fn send_message(&mut self, message: &T) -> Result<()>;
 }
 
-impl<T> UnixStreamSendMessageTrait<T> for UnixStream
+impl<T> IpcStreamSendMessageTrait<T> for IpcConnection
 where
     T: ?Sized + Serialize,
 {
@@ -18,11 +18,11 @@ where
     }
 }
 
-pub trait UnixStreamRecvMessageTrait<T> {
+pub trait IpcStreamRecvMessageTrait<T> {
     fn recv_message(&mut self) -> Result<T>;
 }
 
-impl<T> UnixStreamRecvMessageTrait<T> for UnixStream
+impl<T> IpcStreamRecvMessageTrait<T> for IpcConnection
 where
     T: DeserializeOwned,
 {
