@@ -25,7 +25,12 @@ pub struct WaitArgs {
     pub event: WaitEvent,
 }
 
-#[derive(Debug, Subcommand, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Hash, Subcommand, Serialize, Deserialize)]
 pub enum WaitEvent {
+    /// reset
+    Reset,
+    /// `on_new_map`
+    MapLoading,
+    /// `on_new_map_loaded`
     MapLoaded,
 }

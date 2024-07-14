@@ -28,11 +28,12 @@ pub fn free() {
 }
 
 pub fn reset() {
-    // TODO clear queue?
+    // TODO clear tick command queue?
+    commands::reset();
 }
 
 pub fn on_new_map() {
-    // TODO
+    commands::on_new_map();
 }
 
 pub fn on_new_map_loaded() {
