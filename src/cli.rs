@@ -27,10 +27,15 @@ pub struct WaitArgs {
 
 #[derive(Debug, PartialEq, Eq, Hash, Subcommand, Serialize, Deserialize)]
 pub enum WaitEvent {
-    /// reset
+    /// fired on `reset`
     Reset,
-    /// `on_new_map`
+    /// fired on `on_new_map`
     MapLoading,
-    /// `on_new_map_loaded`
+    /// fired on `on_new_map_loaded`
     MapLoaded,
+
+    /// fired once a second, when loaded into a map and 0 chunks are loading
+    ChunksLoaded,
+    /// fired once a second, when loaded into a map
+    Init,
 }

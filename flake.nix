@@ -43,6 +43,8 @@
                 (rustfmt.override { asNightly = true; })
                 rust-analyzer
               ]) else [ ]);
+
+              meta.mainProgram = "cccc";
           };
         in
         {

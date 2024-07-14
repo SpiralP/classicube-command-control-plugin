@@ -1,12 +1,23 @@
-pub mod waiter;
+mod chunks;
+mod init;
+mod waiter;
 
-use std::sync::{mpsc, Arc, Mutex, OnceLock};
+use std::{
+    cell::Cell,
+    clone::Clone,
+    sync::{mpsc, Arc, Mutex, OnceLock},
+};
 
 use anyhow::Result;
 use classicube_sys::{Chat_Send, OwnedString};
+use tracing::debug;
 
 use self::waiter::GlobalWaiterManager;
 use crate::cli::{Action, WaitEvent};
+
+thread_local! {
+    static IN_MAP: Cell<bool> = const { Cell::new(false) };
+}
 
 type OnceQueue = (mpsc::Sender<Action>, Arc<Mutex<mpsc::Receiver<Action>>>);
 fn get_queue() -> &'static OnceQueue {
@@ -23,6 +34,9 @@ pub fn tick() {
     while let Ok(action) = queue.try_recv() {
         handle_cli_action(action);
     }
+
+    chunks::tick();
+    init::tick();
 }
 
 /// on `handle_client` thread
@@ -56,13 +70,23 @@ fn handle_cli_action(action: Action) {
 }
 
 pub fn reset() {
+    debug!("reset");
+    IN_MAP.set(false);
+
     GlobalWaiterManager::wake(&WaitEvent::Reset);
 }
 
 pub fn on_new_map() {
+    debug!("on_new_map");
+    IN_MAP.set(false);
+
     GlobalWaiterManager::wake(&WaitEvent::MapLoading);
 }
 
 pub fn on_new_map_loaded() {
+    debug!("on_new_map_loaded");
+    IN_MAP.set(true);
+
     GlobalWaiterManager::wake(&WaitEvent::MapLoaded);
+    chunks::on_new_map_loaded();
 }
