@@ -9,7 +9,7 @@ use std::{
 };
 
 use anyhow::Result;
-use classicube_sys::{Chat_Send, OwnedString};
+use classicube_sys::{Chat_Send, Event_RaiseVoid, OwnedString, WindowEvents};
 use tracing::debug;
 
 use self::waiter::GlobalWaiterManager;
@@ -46,7 +46,7 @@ pub fn queue_cli_action(action: Action) -> Result<()> {
             let waiter = GlobalWaiterManager::new_waiter(args.event);
             waiter.wait();
         }
-        Action::Chat(_) => {
+        Action::Chat(_) | Action::Quit => {
             let queue = get_queue().0.clone();
             queue.send(action)?;
         }
@@ -66,6 +66,10 @@ fn handle_cli_action(action: Action) {
             }
         }
         Action::Wait(_) => {}
+        Action::Quit => unsafe {
+            // Window_RequestClose
+            Event_RaiseVoid(&mut WindowEvents.Closing);
+        },
     }
 }
 

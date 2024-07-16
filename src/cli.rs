@@ -12,6 +12,7 @@ pub struct Cli {
 pub enum Action {
     Chat(ChatArgs),
     Wait(WaitArgs),
+    Quit,
 }
 
 #[derive(Debug, clap::Args, Serialize, Deserialize)]
