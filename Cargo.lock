@@ -249,8 +249,8 @@ dependencies = [
 
 [[package]]
 name = "classicube-helpers"
-version = "2.0.0+classicube.1.3.6"
-source = "git+https://github.com/SpiralP/rust-classicube-helpers.git#cd23fc4f97de0df256da79138f97326007a1ed66"
+version = "3.0.0+classicube.1.3.7"
+source = "git+https://github.com/SpiralP/rust-classicube-helpers.git#0624402a63305dfad0a6ec6624e10e5db3cfd861"
 dependencies = [
  "async-dispatcher",
  "classicube-sys",
@@ -264,9 +264,9 @@ dependencies = [
 
 [[package]]
 name = "classicube-sys"
-version = "3.0.5+classicube.1.3.6"
+version = "4.0.0+classicube.1.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3eccbe102aeca95b74a03fc37ac82c18be15f1d6470a5b932b9f1243d9e16bf2"
+checksum = "9037ddc8af229511e09e4abe6ac21b9235514cfd93d30ff1138301b6b9a2a1d8"
 dependencies = [
  "bindgen",
  "cc",
