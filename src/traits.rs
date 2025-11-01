@@ -12,7 +12,7 @@ where
     T: ?Sized + Serialize,
 {
     fn send_message(&mut self, message: &T) -> Result<()> {
-        bincode::serialize_into(self, message)?;
+        bincode::serde::encode_into_std_write(message, self, bincode::config::standard())?;
 
         Ok(())
     }
@@ -27,7 +27,7 @@ where
     T: DeserializeOwned,
 {
     fn recv_message(&mut self) -> Result<T> {
-        let message: T = bincode::deserialize_from(self)?;
+        let message: T = bincode::serde::decode_from_std_read(self, bincode::config::standard())?;
         Ok(message)
     }
 }

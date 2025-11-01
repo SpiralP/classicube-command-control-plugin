@@ -68,7 +68,7 @@ fn handle_cli_action(action: Action) {
         Action::Wait(_) => {}
         Action::Quit => unsafe {
             // Window_RequestClose
-            Event_RaiseVoid(&mut WindowEvents.Closing);
+            Event_RaiseVoid(&raw mut WindowEvents.Closing);
         },
     }
 }

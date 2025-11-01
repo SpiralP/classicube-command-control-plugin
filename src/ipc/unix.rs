@@ -44,7 +44,7 @@ pub struct IpcConnectionIncoming<'a> {
     incoming: Incoming<'a>,
 }
 
-impl<'a> Iterator for IpcConnectionIncoming<'a> {
+impl Iterator for IpcConnectionIncoming<'_> {
     type Item = io::Result<IpcConnection>;
 
     fn next(&mut self) -> Option<Self::Item> {
